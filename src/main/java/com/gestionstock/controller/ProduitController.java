@@ -2,103 +2,152 @@ package com.gestionstock.controller;
 
 import com.gestionstock.model.Categorie;
 import com.gestionstock.model.Fournisseur;
-import com.gestionstock.service.ProduitService;
-import com.gestionstock.service.ProduitServiceImpl;
 import com.gestionstock.model.Produit;
+import com.gestionstock.service.*;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
 public class ProduitController {
-    @FXML
-    TableView<Produit> tableProduits;
-    @FXML
-    TableColumn<Produit, Integer> colonneNom;
-    @FXML
-    TableColumn<Produit, Double> colonnePrix;
-    @FXML
-    TableColumn<Produit, Integer> colonneStock;
-    @FXML
-    TableColumn<Produit, Integer> colonneStockMin;
-    @FXML
-    TableColumn<Produit, String> colonneCategorie;
-    @FXML
-    TableColumn<Produit, String> colonneFournisseur;
-    @FXML
-    TextField champRecherche;
+    @FXML private TableView<Produit> tableProduits;
+    @FXML private TableColumn<Produit, String> colonneNom;
+    @FXML private TableColumn<Produit, Double> colonnePrix;
+    @FXML private TableColumn<Produit, String> colonnePrixPromo;
+    @FXML private TableColumn<Produit, Integer> colonneStock;
+    @FXML private TableColumn<Produit, Integer> colonneStockMin;
+    @FXML private TableColumn<Produit, String> colonneCategorie;
+    @FXML private TableColumn<Produit, String> colonneFournisseur;
+    @FXML private TableColumn<Produit, Void> colonneActions;
+    @FXML private TextField champRecherche;
+    @FXML private ComboBox<Categorie> filtreCategorie;
+    @FXML private ComboBox<Fournisseur> filtreFournisseur;
+    @FXML private CheckBox caseStockBas;
 
     private final ProduitService produitService = new ProduitServiceImpl();
+    private final CategorieService categorieService = new CategorieServiceImpl();
+    private final FournisseurService fournisseurService = new FournisseurServiceImpl();
 
-    // Liste complète chargée depuis la base, utilisée comme référence pour la recherche
+    // Liste complète chargée depuis la base, utilisée comme référence pour la recherche/les filtres
     private ObservableList<Produit> listeProduits;
 
     @FXML
     public void initialize() {
         configurerColones();
+        configurerColonneActions();
+        configurerFiltres();
         chargerDonnees();
     }
 
     private void configurerColones() {
-          /*
-            - PropertyValueFactory: indique à la colonne d'afficher la valeur retournée par getNom() sur chaque objet Produit
-            - ObservableList: C'est une liste spéciale qui permet de mettre à jour automatiquement TableView lorsque
-            des éléments sont ajoutés ou supprimés.
-            - FXCollections.observableArrayList: crée une ObservableList à partir d'objets
-
-            A RETENIR: PropertyValueFactory<>("nom") appelle automatiquement la méthode getNom()
-            de la classe Produit. Il faut donc que les getters soient définis dans la classe modèle
-         */
-        // Lier chaque colonne à un attribut de la classe Produit
-        colonneNom.setCellValueFactory( new PropertyValueFactory<>("nom"));
-        colonnePrix.setCellValueFactory( new PropertyValueFactory<>("prix"));
-        colonneStock.setCellValueFactory( new PropertyValueFactory<>("quantiteStock"));
-        colonneStockMin.setCellValueFactory( new PropertyValueFactory<>("quantiteMin"));
-        colonneCategorie.setCellValueFactory( data -> {
+        colonneNom.setCellValueFactory(new PropertyValueFactory<>("nom"));
+        colonnePrix.setCellValueFactory(new PropertyValueFactory<>("prix"));
+        colonneStock.setCellValueFactory(new PropertyValueFactory<>("quantiteStock"));
+        colonneStockMin.setCellValueFactory(new PropertyValueFactory<>("quantiteMin"));
+        colonneCategorie.setCellValueFactory(data -> {
             Categorie cat = data.getValue().getCategorie();
             return new SimpleStringProperty(cat != null ? cat.getNom() : "");
         });
-        colonneFournisseur.setCellValueFactory( data -> {
+        colonneFournisseur.setCellValueFactory(data -> {
             Fournisseur fournisseur = data.getValue().getFournisseur();
             return new SimpleStringProperty(fournisseur != null ? fournisseur.getNom() : "");
         });
+        colonnePrixPromo.setCellValueFactory(data -> {
+            Double promo = data.getValue().getPrixPromo();
+            return new SimpleStringProperty(promo == null ? "" : String.valueOf(promo));
+        });
+    }
+
+    private void configurerColonneActions() {
+        colonneActions.setCellFactory(colonne -> new TableCell<>() {
+            private final Button boutonModifier = new Button("Modifier");
+            { boutonModifier.setOnAction(e -> ouvrirDialogue(getTableView().getItems().get(getIndex()))); }
+
+            @Override
+            protected void updateItem(Void item, boolean vide) {
+                super.updateItem(item, vide);
+                setGraphic(vide ? null : boutonModifier);
+            }
+        });
+    }
+
+    private void configurerFiltres() {
+        filtreCategorie.getItems().add(null); // "Toutes"
+        filtreCategorie.getItems().addAll(categorieService.findAll());
+        filtreCategorie.setConverter(convertisseur(c -> c == null ? "Toutes les catégories" : c.getNom()));
+
+        filtreFournisseur.getItems().add(null); // "Tous"
+        filtreFournisseur.getItems().addAll(fournisseurService.findAll());
+        filtreFournisseur.setConverter(convertisseur(f -> f == null ? "Tous les fournisseurs" : f.getNom()));
+    }
+
+    private <T> javafx.util.StringConverter<T> convertisseur(java.util.function.Function<T, String> texte) {
+        return new javafx.util.StringConverter<>() {
+            @Override public String toString(T objet) { return texte.apply(objet); }
+            @Override public T fromString(String chaine) { return null; }
+        };
     }
 
     private void chargerDonnees() {
-        // Charger des données depuis la base via JDBC API
         List<Produit> produits = produitService.findAllProduits();
-
         listeProduits = FXCollections.observableArrayList(produits);
-
         tableProduits.setItems(listeProduits);
     }
 
     @FXML
-    private void rechercherProduits() {
+    private void appliquerFiltres() {
         String recherche = champRecherche.getText();
-
-        if (recherche == null || recherche.isBlank()) {
-            tableProduits.setItems(listeProduits);
-            return;
-        }
-
-        String rechercheMinuscule = recherche.trim().toLowerCase();
+        String rechercheMinuscule = (recherche == null) ? "" : recherche.trim().toLowerCase();
+        Categorie categorieChoisie = filtreCategorie.getValue();
+        Fournisseur fournisseurChoisi = filtreFournisseur.getValue();
+        boolean stockBasUniquement = caseStockBas.isSelected();
 
         ObservableList<Produit> resultats = listeProduits.filtered(produit ->
-                (produit.getNom() != null && produit.getNom().toLowerCase().contains(rechercheMinuscule))
-                        //|| (produit.getCategorie() != null && produit.getCategorie_nom().toLowerCase().contains(rechercheMinuscule))
+                (rechercheMinuscule.isBlank() || (produit.getNom() != null && produit.getNom().toLowerCase().contains(rechercheMinuscule)))
+                        && (categorieChoisie == null || categorieChoisie.equals(produit.getCategorie()))
+                        && (fournisseurChoisi == null || fournisseurChoisi.equals(produit.getFournisseur()))
+                        && (!stockBasUniquement || produit.getQuantiteStock() <= produit.getQuantiteMin())
         );
 
         tableProduits.setItems(resultats);
+    }
+
+    @FXML
+    private void ouvrirFormulaireAjout() {
+        ouvrirDialogue(null);
+    }
+
+    private void ouvrirDialogue(Produit produitAModifier) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/gestionstock/AddProduitDialog.fxml"));
+            Parent racine = loader.load();
+
+            AddProduitDialogController controleur = loader.getController();
+            controleur.initFormulaire(produitAModifier);
+
+            Stage fenetreDialogue = new Stage();
+            fenetreDialogue.setTitle(produitAModifier == null ? "Nouveau produit" : "Modifier le produit");
+            fenetreDialogue.initModality(Modality.APPLICATION_MODAL);
+            fenetreDialogue.setScene(new Scene(racine));
+            fenetreDialogue.showAndWait();
+
+            if (controleur.isSauvegardeEffectuee()) {
+                chargerDonnees();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
@@ -125,13 +174,5 @@ public class ProduitController {
             produitService.deleteProduit(produitSelectionne.getId());
             chargerDonnees();
         }
-    }
-    @FXML
-    private void ouvrirFormulaireAjout() {
-        // TODO étape 5 : ouvrir AddProduitDialog.fxml et rafraîchir chargerDonnees() après validation
-        Alert info = new Alert(Alert.AlertType.INFORMATION);
-        info.setHeaderText(null);
-        info.setContentText("Formulaire d'ajout à venir (étape 5).");
-        info.showAndWait();
     }
 }

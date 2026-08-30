@@ -2,33 +2,44 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="560.0" prefWidth="600.0" spacing="15.0"
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="700.0" spacing="15.0"
       xmlns="http://javafx.com/javafx/26"
       xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="com.gestionstock.controller.ProduitController"
 >
     <children>
-        <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+        <HBox spacing="10.0">
             <children>
-                <TextField fx:id="champRecherche" onKeyReleased="#rechercherProduits" prefWidth="300.0" promptText="Recheche" />
+                <TextField fx:id="champRecherche" onKeyReleased="#appliquerFiltres" prefWidth="200.0" promptText="Recherche" />
+                <ComboBox fx:id="filtreCategorie" onAction="#appliquerFiltres" prefWidth="140.0" promptText="Catégorie" />
+                <ComboBox fx:id="filtreFournisseur" onAction="#appliquerFiltres" prefWidth="140.0" promptText="Fournisseur" />
+                <CheckBox fx:id="caseStockBas" onAction="#appliquerFiltres" text="Stock bas uniquement" />
+            </children>
+        </HBox>
+        <HBox spacing="10.0">
+            <children>
                 <Button fx:id="boutonAjouter" onAction="#ouvrirFormulaireAjout" mnemonicParsing="false" prefWidth="90.0" styleClass="btn-primaire" text="Ajouter" />
                 <Button fx:id="boutonSupprimer" mnemonicParsing="false" onAction="#supprimerProduit" prefWidth="90.0" text="Supprimer" />
             </children>
         </HBox>
-        <TableView fx:id="tableProduits" prefWidth="640.0">
+        <TableView fx:id="tableProduits" prefWidth="660.0">
             <columns>
-                <TableColumn fx:id="colonneNom" prefWidth="220.0" text="Nom" />
-                <TableColumn fx:id="colonnePrix" prefWidth="130.0" text="Prix" />
-                <TableColumn fx:id="colonneStock" prefWidth="100.0" text="Stock" />
-                <TableColumn fx:id="colonneStockMin" prefWidth="100.0" text="Stock min." />
-                <TableColumn fx:id="colonneCategorie" prefWidth="110.0" text="Categorie" />
-                <TableColumn fx:id="colonneFournisseur" prefWidth="140.0" text="Fournisseur" />
+                <TableColumn fx:id="colonneNom" prefWidth="160.0" text="Nom" />
+                <TableColumn fx:id="colonnePrix" prefWidth="90.0" text="Prix" />
+                <TableColumn fx:id="colonnePrixPromo" prefWidth="90.0" text="Prix Promo" />
+                <TableColumn fx:id="colonneStock" prefWidth="80.0" text="Stock" />
+                <TableColumn fx:id="colonneStockMin" prefWidth="80.0" text="Stock min." />
+                <TableColumn fx:id="colonneCategorie" prefWidth="100.0" text="Categorie" />
+                <TableColumn fx:id="colonneFournisseur" prefWidth="110.0" text="Fournisseur" />
+                <TableColumn fx:id="colonneActions" prefWidth="90.0" text="Actions" />
             </columns>
         </TableView>
     </children>

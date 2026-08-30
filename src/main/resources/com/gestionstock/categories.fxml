@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="640.0" spacing="15.0"
+      xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.gestionstock.controller.CategorieController">
+    <children>
+        <Label style="-fx-font-size: 18; -fx-font-weight: bold;" text="Catégories" />
+
+        <TableView fx:id="tableCategories" prefHeight="280.0" prefWidth="600.0">
+            <columns>
+                <TableColumn fx:id="colonneNom" prefWidth="150.0" text="Nom" />
+                <TableColumn fx:id="colonneDescription" prefWidth="220.0" text="Description" />
+                <TableColumn fx:id="colonneNbProduits" prefWidth="120.0" text="Nb. produits" />
+                <TableColumn fx:id="colonneActions" prefWidth="150.0" text="Actions" />
+            </columns>
+        </TableView>
+
+        <Label style="-fx-font-weight: bold;" text="Ajouter / modifier une catégorie" />
+        <HBox spacing="10.0">
+            <children>
+                <TextField fx:id="champNom" prefWidth="200.0" promptText="Nom (obligatoire)" />
+                <TextArea fx:id="champDescription" prefHeight="35.0" prefWidth="260.0" promptText="Description" wrapText="true" />
+            </children>
+        </HBox>
+        <Label fx:id="labelErreur" style="-fx-text-fill: red;" />
+        <HBox spacing="10.0">
+            <children>
+                <Button onAction="#enregistrer" styleClass="btn-primaire" text="Enregistrer" />
+                <Button onAction="#annuler" text="Annuler / Nouveau" />
+            </children>
+        </HBox>
+    </children>
+    <padding>
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+    </padding>
+</VBox>
