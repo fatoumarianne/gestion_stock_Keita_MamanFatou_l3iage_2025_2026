@@ -25,8 +25,8 @@ public class DatabaseConfig {
             if(input == null){
                 throw new RuntimeException("Fichier config.properties introuvables dans src/main/resources");
             }
-
             properties.load(input);
+
             url = properties.getProperty("db.url");
             username = properties.getProperty("db.username");
             password = properties.getProperty("db.password");

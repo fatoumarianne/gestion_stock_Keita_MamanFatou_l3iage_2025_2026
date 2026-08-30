@@ -15,7 +15,7 @@ public class Main extends Application {
     }
     @Override
     public void start(Stage stage) throws IOException {
-        DatabaseConfig.testerConnection();
+        //DatabaseConfig.testerConnection();
 
         FXMLLoader loader = new FXMLLoader(
                 getClass().getResource("/com/gestionstock/main.fxml")

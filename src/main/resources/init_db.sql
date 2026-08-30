@@ -62,6 +62,6 @@ INSERT INTO fournisseurs(nom, email, tel) VALUES
   ('TechPro SARL', 'contact@techpro.sn', '+221 77 100 00 01'),
   ('MeubleAfrik', 'contact@meubleafrik.sn', '+221 77 200 00 01');
 
-INSERT INTO produis(nom, prix, quantite_stock, quantite_min, categorie_id, fournisseur_id) VALUES
+INSERT INTO produits(nom, prix, quantite_stock, quantite_min, categorie_id, fournisseur_id) VALUES
     ("Ordinateur Portable", 550000.0, 15, 3, 1, 1),
     ("Bureau en bois", 87000.0, 8, 2, 2, 2);

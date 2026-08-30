@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="https://jakarta.ee/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence https://jakarta.ee/xml/ns/persistence/persistence_3_0.xsd"
+             version="3.0">
+    <persistence-unit name="GestionStockPU" transaction-type="RESOURCE_LOCAL">
+
+        <!-- Classes entités JPA à gérer -->
+        <class>com.gestionstock.model.Produit</class>
+        <class>com.gestionstock.model.Categorie</class>
+        <class>com.gestionstock.model.Fournisseur</class>
+        <class>com.gestionstock.model.Mouvement</class>
+
+
+        <properties>
+            <!-- Driver, URL, user , password et le dialecte ne sont pas ici:
+                ils sont injectes au runtime par JPAUtil depuis config.properties -->
+
+            <!-- Afficher les requêtes SQL générées dans la console -->
+            <property name="hibernate.show_sql" value="true"/>
+            <property name="hibernate.format_sql" value="true"/>
+            <!-- Stratégie de création des tables
+                -create: Recrée les tables à chaque démarre(efface les données)
+                -update: met à jour le schéma sans effacer les données
+                -validate: vérifie que le schéma correspond aux entités(production)
+                -create-drop: crée les tables au démarrage, les supprime à l'arrêt
+                -none: ne touche pas au schéma
+            -->
+            <property name="hibernate.hbm2ddl.auto" value="update"/>
+        </properties>
+    </persistence-unit>
+</persistence>

@@ -13,24 +13,26 @@
       xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="com.gestionstock.controller.ProduitController"
 >
-   <children>
-      <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0">
-         <children>
-            <TextField fx:id="champRecherche" prefWidth="300.0" promptText="Recheche" />
-            <Button mnemonicParsing="false" prefWidth="90.0" styleClass="btn-primaire" text="Ajouter" />
-            <Button mnemonicParsing="false" prefWidth="90.0" text="Supprimer" />
-         </children>
-      </HBox>
-      <TableView fx:id="tableProduits" prefWidth="640.0">
-        <columns>
-          <TableColumn fx:id="colonneNom" prefWidth="220.0" text="Nom" />
-          <TableColumn fx:id="colonnePrix" prefWidth="130.0" text="Prix" />
-            <TableColumn fx:id="colonneStock" prefWidth="100.0" text="Stock" />
-            <TableColumn fx:id="colonneCategorie" prefWidth="110.0" text="Categorie" />
-        </columns>
-      </TableView>
-   </children>
-   <padding>
-      <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-   </padding>
+    <children>
+        <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+            <children>
+                <TextField fx:id="champRecherche" onKeyReleased="#rechercherProduits" prefWidth="300.0" promptText="Recheche" />
+                <Button mnemonicParsing="false" prefWidth="90.0" styleClass="btn-primaire" text="Ajouter" />
+                <Button fx:id="boutonSupprimer" mnemonicParsing="false" onAction="#supprimerProduit" prefWidth="90.0" text="Supprimer" />
+            </children>
+        </HBox>
+        <TableView fx:id="tableProduits" prefWidth="640.0">
+            <columns>
+                <TableColumn fx:id="colonneNom" prefWidth="220.0" text="Nom" />
+                <TableColumn fx:id="colonnePrix" prefWidth="130.0" text="Prix" />
+                <TableColumn fx:id="colonneStock" prefWidth="100.0" text="Stock" />
+                <TableColumn fx:id="colonneStockMin" prefWidth="100.0" text="Stock min." />
+                <TableColumn fx:id="colonneCategorie" prefWidth="110.0" text="Categorie" />
+                <TableColumn fx:id="colonneFournisseur" prefWidth="140.0" text="Fournisseur" />
+            </columns>
+        </TableView>
+    </children>
+    <padding>
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+    </padding>
 </VBox>

@@ -47,7 +47,7 @@ public class MainController {
             contenuPrincipale.getChildren().clear();
             contenuPrincipale.getChildren().add(vue);
         } catch(Exception e){
-            System.err.println(e.getMessage());
+            e.printStackTrace();
         }
     }
 }
