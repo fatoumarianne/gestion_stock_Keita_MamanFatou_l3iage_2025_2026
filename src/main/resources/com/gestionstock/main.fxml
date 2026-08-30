@@ -7,6 +7,8 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.gestionstock.controller.MainController">
    <left>
       <VBox spacing="10.0" style="-fx-background-color: #203961; -fx-padding: 20;" BorderPane.alignment="CENTER">
@@ -20,6 +22,15 @@
          </children>
       </VBox>
    </left>
+   <top>
+      <HBox alignment="CENTER_LEFT" spacing="10.0" style="-fx-background-color: white; -fx-padding: 12 20;" BorderPane.alignment="CENTER">
+         <children>
+            <Label fx:id="labelUtilisateurConnecte" style="-fx-font-weight: bold;" />
+            <Region HBox.hgrow="ALWAYS" />
+            <Button text="Déconnexion" onAction="#seDeconnecter" />
+         </children>
+      </HBox>
+   </top>
    <center>
       <StackPane fx:id="contenuPrincipale" prefHeight="150.0" prefWidth="200.0" style="-fx-background-color: #edeef0;" BorderPane.alignment="CENTER">
          <children>

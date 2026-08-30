@@ -17,7 +17,7 @@
         <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0">
             <children>
                 <TextField fx:id="champRecherche" onKeyReleased="#rechercherProduits" prefWidth="300.0" promptText="Recheche" />
-                <Button mnemonicParsing="false" prefWidth="90.0" styleClass="btn-primaire" text="Ajouter" />
+                <Button fx:id="boutonAjouter" onAction="#ouvrirFormulaireAjout" mnemonicParsing="false" prefWidth="90.0" styleClass="btn-primaire" text="Ajouter" />
                 <Button fx:id="boutonSupprimer" mnemonicParsing="false" onAction="#supprimerProduit" prefWidth="90.0" text="Supprimer" />
             </children>
         </HBox>

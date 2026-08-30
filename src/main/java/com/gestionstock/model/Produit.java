@@ -41,7 +41,9 @@ public class Produit {
     @Column(nullable = false)
     private double prix;
 
-    private double prixPromo;
+    @Column(name = "prix_promo")
+    private Double prixPromo; // double -> Double, pour pouvoir représenter "non renseigné" avec null
+
 
     @ManyToOne
     @JoinColumn(name = "categorie_id")
@@ -131,5 +133,13 @@ public class Produit {
                 ", categorie=" + categorie +
                 ", fournisseur=" + fournisseur +
                 '}';
+    }
+
+    public Double getPrixPromo() {
+        return prixPromo;
+    }
+
+    public void setPrixPromo(Double prixPromo) {
+        this.prixPromo = prixPromo;
     }
 }

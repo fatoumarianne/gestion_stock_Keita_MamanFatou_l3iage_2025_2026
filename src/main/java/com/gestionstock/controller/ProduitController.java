@@ -126,4 +126,12 @@ public class ProduitController {
             chargerDonnees();
         }
     }
+    @FXML
+    private void ouvrirFormulaireAjout() {
+        // TODO étape 5 : ouvrir AddProduitDialog.fxml et rafraîchir chargerDonnees() après validation
+        Alert info = new Alert(Alert.AlertType.INFORMATION);
+        info.setHeaderText(null);
+        info.setContentText("Formulaire d'ajout à venir (étape 5).");
+        info.showAndWait();
+    }
 }
