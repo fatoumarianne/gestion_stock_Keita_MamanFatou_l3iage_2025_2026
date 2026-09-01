@@ -20,6 +20,18 @@ public class Mouvement {
     @JoinColumn(name = "produit_id", nullable = false)
     private Produit produit;
 
+    public Utilisateur getUtilisateur() {
+        return utilisateur;
+    }
+
+    public void setUtilisateur(Utilisateur utilisateur) {
+        this.utilisateur = utilisateur;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "utilisateur_id")
+    private Utilisateur utilisateur;
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private TypeMouvement type;

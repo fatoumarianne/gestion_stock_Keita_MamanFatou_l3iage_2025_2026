@@ -88,4 +88,8 @@ public class MainController {
             e.printStackTrace();
         }
     }
+    @FXML
+    private void afficherMouvements() {
+        chargerVue("/com/gestionstock/mouvements.fxml");
+    }
 }

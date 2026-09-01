@@ -19,6 +19,7 @@
             <Button fx:id="btnProduits" layoutX="10.0" layoutY="40.0" mnemonicParsing="false" onAction="#afficherProduits" style="-fx-background-color: transparent; -fx-text-fill: white;" text="Produits" />
             <Button fx:id="btnCategories" layoutX="10.0" layoutY="65.0" mnemonicParsing="false" onAction="#afficherCategories" style="-fx-background-color: transparent; -fx-text-fill: white;" text="Categories" />
             <Button fx:id="btnFournisseurs" layoutX="10.0" layoutY="90.0" mnemonicParsing="false" onAction="#afficherFournisseurs" style="-fx-background-color: transparent; -fx-text-fill: white;" text="Fournisseurs" />
+            <Button fx:id="btnMouvements" mnemonicParsing="false" onAction="#afficherMouvements" style="-fx-background-color: transparent; -fx-text-fill: white;" text="Mouvements" />
          </children>
       </VBox>
    </left>
