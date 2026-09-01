@@ -102,4 +102,14 @@ public class Mouvement {
     public void setDateMouvement(LocalDateTime dateMouvement) {
         this.dateMouvement = dateMouvement;
     }
+
+    private Integer stockApresMouvement;
+
+    public Integer getStockApresMouvement() {
+        return stockApresMouvement;
+    }
+
+    public void setStockApresMouvement(Integer stockApresMouvement) {
+        this.stockApresMouvement = stockApresMouvement;
+    }
 }

@@ -36,8 +36,7 @@ public class MainController {
 
     @FXML
     private void afficherDashboard() {
-        contenuPrincipale.getChildren().clear();
-        contenuPrincipale.getChildren().add(new Label("Dashboard"));
+        chargerVue("/com/gestionstock/dashboard.fxml");
     }
 
     @FXML
@@ -91,5 +90,10 @@ public class MainController {
     @FXML
     private void afficherMouvements() {
         chargerVue("/com/gestionstock/mouvements.fxml");
+    }
+
+    @FXML
+    private void afficherStatistiques() {
+        chargerVue("/com/gestionstock/statistiques.fxml");
     }
 }

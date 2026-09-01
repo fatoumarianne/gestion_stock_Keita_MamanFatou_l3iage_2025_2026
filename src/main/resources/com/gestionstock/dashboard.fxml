@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="720.0" spacing="20.0"
+      xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.gestionstock.controller.DashboardController">
+    <children>
+        <Label style="-fx-font-size: 18; -fx-font-weight: bold;" text="Tableau de bord" />
+
+        <HBox spacing="15.0">
+            <children>
+                <VBox spacing="5.0" style="-fx-background-color: white; -fx-padding: 15; -fx-background-radius: 8;" prefWidth="160.0">
+                    <children>
+                        <Label style="-fx-text-fill: #808080;" text="Produits" />
+                        <Label fx:id="labelTotalProduits" style="-fx-font-size: 26; -fx-font-weight: bold;" />
+                    </children>
+                </VBox>
+                <VBox spacing="5.0" style="-fx-background-color: white; -fx-padding: 15; -fx-background-radius: 8;" prefWidth="160.0">
+                    <children>
+                        <Label style="-fx-text-fill: #808080;" text="Stock bas" />
+                        <Label fx:id="labelStockBas" style="-fx-font-size: 26; -fx-font-weight: bold; -fx-text-fill: #d9534f;" />
+                    </children>
+                </VBox>
+                <VBox spacing="5.0" style="-fx-background-color: white; -fx-padding: 15; -fx-background-radius: 8;" prefWidth="180.0">
+                    <children>
+                        <Label style="-fx-text-fill: #808080;" text="Valeur du stock" />
+                        <Label fx:id="labelValeurStock" style="-fx-font-size: 22; -fx-font-weight: bold;" />
+                    </children>
+                </VBox>
+                <VBox spacing="5.0" style="-fx-background-color: white; -fx-padding: 15; -fx-background-radius: 8;" prefWidth="180.0">
+                    <children>
+                        <Label style="-fx-text-fill: #808080;" text="Mouvements du jour" />
+                        <Label fx:id="labelMouvementsDuJour" style="-fx-font-size: 16; -fx-font-weight: bold;" />
+                    </children>
+                </VBox>
+            </children>
+        </HBox>
+
+        <Label style="-fx-font-weight: bold;" text="Produits en stock bas" />
+        <ListView fx:id="listeStockBas" prefHeight="220.0" prefWidth="680.0" />
+    </children>
+    <padding>
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+    </padding>
+</VBox>

@@ -13,4 +13,7 @@ public interface ProduitService {
     void updateProduit(Produit p);
     void deleteProduit(int id);
     List<Produit> findByStockBas();
+    long countTotal();
+    long countStockBas();
+    double valeurTotaleStock();
 }

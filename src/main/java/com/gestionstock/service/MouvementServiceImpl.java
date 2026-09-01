@@ -6,6 +6,7 @@ import com.gestionstock.model.enums.TypeMouvement;
 import com.gestionstock.util.JPAUtil;
 import jakarta.persistence.EntityManager;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -26,7 +27,6 @@ public class MouvementServiceImpl implements MouvementService {
         try {
             em.getTransaction().begin();
 
-            // On recharge le produit dans CET EntityManager pour pouvoir le modifier
             Produit produit = em.find(Produit.class, mouvement.getProduit().getId());
             if (produit == null) {
                 throw new IllegalArgumentException("Produit introuvable.");
@@ -38,25 +38,47 @@ public class MouvementServiceImpl implements MouvementService {
                             "Stock insuffisant : quantité disponible = " + produit.getQuantiteStock());
                 }
                 produit.setQuantiteStock(produit.getQuantiteStock() - mouvement.getQuantite());
-            } else { // ENTREE
+            } else {
                 produit.setQuantiteStock(produit.getQuantiteStock() + mouvement.getQuantite());
             }
 
             mouvement.setProduit(produit);
             mouvement.setDateMouvement(LocalDateTime.now());
+            mouvement.setStockApresMouvement(produit.getQuantiteStock());
             em.persist(mouvement);
 
-            // Le mouvement ET la mise à jour du stock sont validés ensemble ici
             em.getTransaction().commit();
 
         } catch (IllegalStateException | IllegalArgumentException e) {
             em.getTransaction().rollback();
-            throw e; // message métier à afficher tel quel côté UI
+            throw e;
         } catch (Exception e) {
             em.getTransaction().rollback();
             throw new RuntimeException("Erreur lors de l'enregistrement du mouvement.");
         } finally {
             em.close();
+        }
+    }
+
+    @Override
+    public long countEntreesDuJour() {
+        return countMouvementsDuJour(TypeMouvement.ENTREE);
+    }
+
+    @Override
+    public long countSortiesDuJour() {
+        return countMouvementsDuJour(TypeMouvement.SORTIE);
+    }
+
+    private long countMouvementsDuJour(TypeMouvement type) {
+        try (EntityManager em = JPAUtil.getEntityManager()) {
+            LocalDate aujourdHui = LocalDate.now();
+            return em.createQuery(
+                            "SELECT COUNT(m) FROM Mouvement m WHERE m.type = :type " +
+                                    "AND FUNCTION('DATE', m.dateMouvement) = :aujourdHui", Long.class)
+                    .setParameter("type", type)
+                    .setParameter("aujourdHui", aujourdHui)
+                    .getSingleResult();
         }
     }
 }
