@@ -65,3 +65,9 @@ INSERT INTO fournisseurs(nom, email, tel) VALUES
 INSERT INTO produits(nom, prix, quantite_stock, quantite_min, categorie_id, fournisseur_id) VALUES
     ("Ordinateur Portable", 550000.0, 15, 3, 1, 1),
     ("Bureau en bois", 87000.0, 8, 2, 2, 2);
+
+-- Quelques mouvements de test pour peupler le dashboard et les statistiques
+INSERT INTO mouvements (produit_id, type, quantite, motif, date_mouvement, utilisateur_id) VALUES
+                                                                                               (1, 'ENTREE', 20, 'Réapprovisionnement initial', CURRENT_TIMESTAMP, 1),
+                                                                                               (1, 'SORTIE', 5, 'Vente', CURRENT_TIMESTAMP, 2),
+                                                                                               (2, 'ENTREE', 15, 'Réapprovisionnement initial', CURRENT_TIMESTAMP, 1);

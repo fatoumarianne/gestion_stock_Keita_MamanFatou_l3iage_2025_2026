@@ -3,6 +3,7 @@ package com.gestionstock.controller;
 import com.gestionstock.model.Categorie;
 import com.gestionstock.service.CategorieService;
 import com.gestionstock.service.CategorieServiceImpl;
+import com.gestionstock.util.SessionUtilisateur;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -40,6 +41,8 @@ public class CategorieController {
     }
 
     private void configurerColonneActions() {
+        boolean estAdmin = SessionUtilisateur.estAdmin();
+
         colonneActions.setCellFactory(colonne -> new TableCell<>() {
             private final Button boutonModifier = new Button("Modifier");
             private final Button boutonSupprimer = new Button("Supprimer");
@@ -48,6 +51,7 @@ public class CategorieController {
             {
                 boutonModifier.setOnAction(e -> preparerModification(getTableView().getItems().get(getIndex())));
                 boutonSupprimer.setOnAction(e -> supprimer(getTableView().getItems().get(getIndex())));
+                boutonSupprimer.setDisable(!estAdmin);
             }
 
             @Override

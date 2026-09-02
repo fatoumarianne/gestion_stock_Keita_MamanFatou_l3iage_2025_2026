@@ -3,6 +3,7 @@ package com.gestionstock.controller;
 import com.gestionstock.model.Fournisseur;
 import com.gestionstock.service.FournisseurService;
 import com.gestionstock.service.FournisseurServiceImpl;
+import com.gestionstock.util.SessionUtilisateur;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -41,6 +42,8 @@ public class FournisseurController {
     }
 
     private void configurerColonneActions() {
+        boolean estAdmin = SessionUtilisateur.estAdmin();
+
         colonneActions.setCellFactory(colonne -> new TableCell<>() {
             private final Button boutonModifier = new Button("Modifier");
             private final Button boutonSupprimer = new Button("Supprimer");
@@ -49,6 +52,7 @@ public class FournisseurController {
             {
                 boutonModifier.setOnAction(e -> preparerModification(getTableView().getItems().get(getIndex())));
                 boutonSupprimer.setOnAction(e -> supprimer(getTableView().getItems().get(getIndex())));
+                boutonSupprimer.setDisable(!estAdmin);
             }
 
             @Override

@@ -72,3 +72,24 @@ INSERT INTO fournisseurs(nom, email, tel) VALUES
 INSERT INTO produits(nom, prix, quantite_stock, quantite_min, categorie_id, fournisseur_id) VALUES
                                                                                                 ('Ordinateur Portable', 550000.0, 15, 3, 1, 1),
                                                                                                 ('Bureau en bois', 87000.0, 8, 2, 2, 2);
+CREATE TABLE utilisateurs (
+                              id BIGSERIAL PRIMARY KEY,
+                              email VARCHAR(150) NOT NULL UNIQUE,
+                              nom VARCHAR(100) NOT NULL,
+                              mot_de_passe_hash VARCHAR(255) NOT NULL,
+                              role VARCHAR(20) NOT NULL,
+                              date_creation DATE,
+                              actif BOOLEAN NOT NULL DEFAULT TRUE
+);
+
+INSERT INTO utilisateurs (email, nom, mot_de_passe_hash, role, date_creation, actif) VALUES
+                                                                                         ('admin@gestionstock.com', 'Admin Principal', '$2b$10$C16U9fwHGMwWtKVKblgagupCzI.Z.rGLL3aDUmmyGLnpEIXwpNycK', 'ADMIN', CURRENT_DATE, TRUE),
+                                                                                         ('gestionnaire@gestionstock.com', 'Gestionnaire Test', '$2b$10$wsFzUEP7b9Q2/g3DeHJObe0Ll.luVt8zsi/yzwuADwNWyO54jcNFa', 'GESTIONNAIRE', CURRENT_DATE, TRUE);
+
+-- Quelques mouvements de test pour peupler le dashboard et les statistiques
+-- (produit_id 1 et 2 = les 2 premiers produits insérés plus haut dans ce script ;
+--  utilisateur_id 1 = admin, 2 = gestionnaire, vu l'ordre d'insertion ci-dessus)
+INSERT INTO mouvements (produit_id, type, quantite, motif, date_mouvement, utilisateur_id) VALUES
+                                                                                               (1, 'ENTREE', 20, 'Réapprovisionnement initial', CURRENT_TIMESTAMP, 1),
+                                                                                               (1, 'SORTIE', 5, 'Vente', CURRENT_TIMESTAMP, 2),
+                                                                                               (2, 'ENTREE', 15, 'Réapprovisionnement initial', CURRENT_TIMESTAMP, 1);

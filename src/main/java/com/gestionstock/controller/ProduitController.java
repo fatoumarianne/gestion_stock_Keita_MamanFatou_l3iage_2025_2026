@@ -4,6 +4,7 @@ import com.gestionstock.model.Categorie;
 import com.gestionstock.model.Fournisseur;
 import com.gestionstock.model.Produit;
 import com.gestionstock.service.*;
+import com.gestionstock.util.SessionUtilisateur;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -34,6 +35,7 @@ public class ProduitController {
     @FXML private ComboBox<Categorie> filtreCategorie;
     @FXML private ComboBox<Fournisseur> filtreFournisseur;
     @FXML private CheckBox caseStockBas;
+    @FXML private Button boutonSupprimer;
 
     private final ProduitService produitService = new ProduitServiceImpl();
     private final CategorieService categorieService = new CategorieServiceImpl();
@@ -48,6 +50,9 @@ public class ProduitController {
         configurerColonneActions();
         configurerFiltres();
         chargerDonnees();
+
+        boolean estAdmin = SessionUtilisateur.estAdmin();
+        boutonSupprimer.setDisable(!estAdmin);
     }
 
     private void configurerColones() {
